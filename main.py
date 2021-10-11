@@ -8,7 +8,7 @@ def show_menu():
     print('4. Iesire. ')
 
 
-def read_list() :
+def read_list():
     lista = []
     lista_str = input('Dati numerele separate prin spatiu: ')
     lista_str_split = lista_str.split(' ')
@@ -17,58 +17,60 @@ def read_list() :
     return lista
 
 
-def is_palindrome(n: int) -> bool:
+def is_palindrome(lst: List[int]) -> bool:
     '''
-    Determina daca un numar dat n este palindrom
-    :param n: nr. intreg
-    :return: True daca numarul dat este palindrom, False in caz contrar
+    Determina daca un o lista data are toate elementele palindrom.
+    :param lst: o lista data
+    :return: True daca lista data are toate elementele palindrom, False in caz contrar.
     '''
-    n = abs(n)
-    invers = 0
-    copie_n = n
-    while copie_n != 0:
-        invers = invers * 10 + copie_n % 10
-        copie_n = copie_n // 10
-    while n != 0:
-        if n % 10 != invers % 10:
-            return False
-        n = n // 10
-        invers = invers // 10
+    for n in lst:
+        invers = 0
+        copie_n = n
+        while copie_n != 0:
+            invers = invers * 10 + copie_n % 10
+            copie_n = copie_n // 10
+        while n != 0:
+            if n % 10 != invers % 10:
+                return False
+            n = n // 10
+            invers = invers // 10
     return True
 
 
 def test_is_palindrome():
-    assert is_palindrome(-7) == True
-    assert is_palindrome(9) == True
-    assert is_palindrome(21) == False
-    assert is_palindrome(4554) == True
-    assert is_palindrome(456) == False
+    assert is_palindrome([5, 11, 44]) == True
+    assert is_palindrome([5, 55, 555, 5555]) == True
+    assert is_palindrome([1, 2, 12]) == False
+    assert is_palindrome([1, 2, 3, 4, 5, 6, 7, 8, 9]) == True
+    assert is_palindrome([11, 33, 44, 55, 66, 78]) == False
 
 
 def get_longest_all_palindromes(lst: List[int]) -> List[int]:
     '''
-
-    :param lst:
-    :return:
+    Determina cea mai lunga subsecventa cu elemente palindrom.
+    :param lst:O lista data.
+    :return: Cea mai lunga subsecventa cu elemente palindrom.
     '''
     lungime = len(lst)
     result = []
     for st in range(lungime):
         for dr in range(st, lungime):
-            if is_palindrome(lst[dr]) == True and len(lst[st:dr + 1]) > len(result):
+            if is_palindrome(lst[st:dr + 1]) and len(lst[st:dr + 1]) > len(result):
                 result = lst[st:dr + 1]
     return result
 
 
 def test_get_longest_all_palindromes():
     assert get_longest_all_palindromes([5, 6, 7, 12, 11, 11, 44, 55, 45, 55, 33, 343]) == [11, 11, 44, 55]
+    assert get_longest_all_palindromes([11, 12, 13, 1, 2, 3, 42, 24, 1, 2, 3, 4]) == [1, 2, 3, 4]
+    assert get_longest_all_palindromes([111, 121, 131, 212, 234, 333, 444, 545, 13]) == [111, 121, 131, 212]
 
 
 def is_prime(n: int) -> bool:
     '''
     Determina daca un numar dat n este prim.
-    :param n: numar intreg dat
-    :return: Treu daca n este prime, False in caz contrar
+    :param n: numar intreg dat.
+    :return: Treu daca n este prime, False in caz contrar.
     '''
     if n < 2:
         return False
@@ -86,11 +88,11 @@ def test_is_prime():
     assert is_prime(18) == False
 
 
-def all_numbers_prime(lst: List(int)) -> bool:
+def all_numbers_prime(lst: List[int]) -> bool:
     '''
-    Determina daca fiecare cifra a numarului n este prima
-    :param n: numarul dat
-    :return: True daca fiecare cifra a lui n este prima, False in caz contrar
+    Determina daca fiecare cifra a elementelor unei liste sunt prime.
+    :param lst: O lista data.
+    :return: True daca fiecare cifra a elemntelor listei sunt prime, False in caz contrar.
     '''
     for n in lst:
         while n != 0:
@@ -107,11 +109,11 @@ def test_all_numbers_prime():
     assert all_numbers_prime([123, 124, 125, 126]) == False
 
 
-def get_longest_prime_digits(lst: List[int]) -> List[int]:
+def get_longest_prime_digits(lst):
     '''
-
-    :param lst:
-    :return:
+    Determina cea mai lunga subsecventa a carei elemente are toate cifrele prime.
+    :param lst: Lista data.
+    :return:Cea mai lunga subsecventa a carei elemente are toate cifrele prime
     '''
     lungime = len(lst)
     result = []
@@ -132,7 +134,7 @@ def main():
         if optiunea == '1':
             lista = read_list()
         elif optiunea == '2':
-            print('Lista cu cele mai multe numere palindrom este: ', )
+            print('Lista cu cele mai multe numere palindrom este: ', get_longest_all_palindromes(lista))
         elif optiunea == '3':
             print('Lista cu cele mai multe numere ale caror cifre sunt numere prime: ', get_longest_prime_digits(lista))
         elif optiunea == '4':
@@ -143,6 +145,7 @@ def main():
 
 if __name__ == '__main__':
     test_is_palindrome()
+    test_get_longest_all_palindromes()
     test_is_prime()
     test_all_numbers_prime()
     main()
