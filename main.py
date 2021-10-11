@@ -109,7 +109,7 @@ def test_all_numbers_prime():
     assert all_numbers_prime([123, 124, 125, 126]) == False
 
 
-def get_longest_prime_digits(lst):
+def get_longest_prime_digits(lst: List[int]) -> List[int]:
     '''
     Determina cea mai lunga subsecventa a carei elemente are toate cifrele prime.
     :param lst: Lista data.
