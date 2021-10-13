@@ -5,7 +5,8 @@ def show_menu():
     print('1. Citire Date. ')
     print('2. Determinare cea mai lunga secventa cu proprietatea ca numerele sunt palindrome. ')
     print('3. Determinare cea mai lunga secventa cu proprietatea ca numerele sunt formate din cifre prime ')
-    print('4. Iesire. ')
+    print('4. Determinare cea mai lunga secventa cu proprietatea ca numerele sunt pare. ')
+    print('5. Iesire. ')
 
 
 def read_list():
@@ -124,6 +125,46 @@ def get_longest_prime_digits(lst: List[int]) -> List[int]:
     return result
 
 
+def sorted_even(lst: List[int]) -> bool:
+    '''
+    Determina daca elementele dintr-o lista sunt pare.
+    :param lst: Lista data.
+    :return: True daca elementele listei sunt ordonate crescator, False in caz contrar.
+    '''
+    for n in lst:
+        if n % 2 == 1:
+            return False
+    return True
+
+
+def test_sorted_even():
+    assert sorted_even([2, 4, 6, 8]) == True
+    assert sorted_even([24, 24, 24, 24]) == True
+    assert sorted_even([12, 14, 16, 17]) == False
+    assert sorted_even([3, 5, 7, 9]) == False
+
+
+def get_longest_all_even(lst: List[int]) -> List[int]:
+    '''
+    Determina cea mai lunga subsecventa de numere pare dintr-o lista data.
+    :param lst: Lista data.
+    :return: Cea mai lunga subsecventa de numere pare.
+    '''
+    result = []
+    lungime = len(lst)
+    for st in range(lungime):
+        for dr in range(st, lungime):
+            if sorted_even(lst[st:dr + 1]) == True and len(lst[st:dr + 1]) > len(result):
+                result = lst[st:dr + 1]
+    return result
+
+
+def test_get_longest_all_even():
+    assert get_longest_all_even([1, 2, 2, 4, 1, 2, 4, 1, 45, 236]) == [2, 2, 4]
+    assert get_longest_all_even([24, 48, 3, 23, 24, 25, 26, 26, 26, 5, 24, 64, 646]) == [ 26, 26, 26]
+    assert get_longest_all_even([962, 424, 323, 244, 566, 656, 15, 16, 18, 22, 26, 28]) == [16, 18, 22, 26, 28]
+
+
 def main():
     lista = []
     while True:
@@ -138,6 +179,8 @@ def main():
         elif optiunea == '3':
             print('Lista cu cele mai multe numere ale caror cifre sunt numere prime: ', get_longest_prime_digits(lista))
         elif optiunea == '4':
+            print('Lista cu cele mai multe numere pare este:', get_longest_all_even(lista))
+        elif optiunea == '5':
             break
         else:
             print('Optiune invalida! Incercati alta optiune! ')
@@ -148,4 +191,6 @@ if __name__ == '__main__':
     test_get_longest_all_palindromes()
     test_is_prime()
     test_all_numbers_prime()
+    test_sorted_even()
+    test_get_longest_all_even()
     main()
